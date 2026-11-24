@@ -1,0 +1,14 @@
+# macOS
+.DS_Store
+._*
+
+# dependencies & builds
+node_modules
+dist
+*.log
+
+# design scratch sheets (not part of the site)
+brandon-folio/design-notes
+
+# leftovers to delete by hand
+_to_delete

@@ -1,0 +1,11 @@
+{
+  "name": "website-2-claude",
+  "private": true,
+  "description": "Brandon Sun portfolio. The site lives in ./brandon-folio — these scripts just forward to it.",
+  "scripts": {
+    "setup": "npm --prefix brandon-folio install",
+    "dev": "npm --prefix brandon-folio run dev",
+    "build": "npm --prefix brandon-folio run build",
+    "preview": "npm --prefix brandon-folio run preview"
+  }
+}
