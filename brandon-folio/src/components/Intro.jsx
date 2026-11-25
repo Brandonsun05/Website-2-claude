@@ -29,6 +29,10 @@ const LOOK = {
   bloom: 0.45, // web-only glow; 0 = off, like the Cycles render
 };
 
+// Intro soundtrack: seamless loop, muted until the visitor turns it on.
+const SOUND_URLS = [media('intro/intro-loop.flac'), media('intro/intro-loop.wav')];
+const VOLUME = 0.9;
+
 const BLENDER_CAM = { loc: [-11.339, 16.571, 1.898], rot: [94.36, 0, -148.11], lens: 50, sensor: 36 };
 
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
@@ -43,6 +47,70 @@ export default function Intro() {
   const progressRef = useRef(0); // scroll progress 0..1, read by the render loop
   const [loaded, setLoaded] = useState(0); // download %
   const [ready, setReady] = useState(false);
+  const [soundOn, setSoundOn] = useState(false);
+  const [soundLoading, setSoundLoading] = useState(false);
+  const audio = useRef({ ctx: null, gain: null, on: false, level: 1 });
+
+  // volume follows the toggle and fades out as you scroll into the site
+  const applyGain = () => {
+    const a = audio.current;
+    if (!a.ctx) return;
+    a.gain.gain.setTargetAtTime(a.on ? VOLUME * a.level : 0, a.ctx.currentTime, 0.12);
+  };
+
+  const toggleSound = async () => {
+    const a = audio.current;
+    if (!a.ctx) {
+      // created inside the click so browsers allow playback
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      a.ctx = new AC();
+      a.gain = a.ctx.createGain();
+      a.gain.gain.value = 0;
+      a.gain.connect(a.ctx.destination);
+      a.on = true;
+      setSoundOn(true);
+      setSoundLoading(true);
+      let buf = null;
+      for (const url of SOUND_URLS) {
+        try {
+          const res = await fetch(url);
+          if (!res.ok) continue;
+          buf = await a.ctx.decodeAudioData(await res.arrayBuffer());
+          break;
+        } catch { /* try the next format */ }
+      }
+      setSoundLoading(false);
+      if (!buf) { a.on = false; setSoundOn(false); return; }
+      const src = a.ctx.createBufferSource(); // buffer looping = gapless
+      src.buffer = buf;
+      src.loop = true;
+      src.connect(a.gain);
+      src.start();
+      if (a.ctx.state === 'suspended') await a.ctx.resume();
+      applyGain();
+      return;
+    }
+    a.on = !a.on;
+    setSoundOn(a.on);
+    if (a.on && a.ctx.state === 'suspended') await a.ctx.resume();
+    applyGain();
+  };
+
+  // pause audio in background tabs; close it when leaving
+  useEffect(() => {
+    const onVis = () => {
+      const a = audio.current;
+      if (!a.ctx) return;
+      if (document.hidden) a.ctx.suspend();
+      else if (a.on) a.ctx.resume();
+    };
+    document.addEventListener('visibilitychange', onVis);
+    return () => {
+      document.removeEventListener('visibilitychange', onVis);
+      audio.current.ctx?.close();
+    };
+  }, []);
 
   // Scroll progress → CSS variable (text + veil fades) and the render loop.
   useEffect(() => {
@@ -56,6 +124,8 @@ export default function Intro() {
       const p = clamp(-r.top / total);
       progressRef.current = p;
       wrap.style.setProperty('--p', p.toFixed(4));
+      audio.current.level = r.bottom <= 0 ? 0 : 1 - smooth(0.55, 1, p);
+      applyGain();
       // hide the nav while the cover is on screen
       root.classList.toggle('in-intro', r.bottom > window.innerHeight * 0.35);
     };
@@ -436,6 +506,29 @@ export default function Intro() {
             Loading planet{loaded > 0 && loaded < 100 ? ` · ${loaded}%` : '…'}
           </p>
         )}
+
+        <div className="intro__sound">
+          <button
+            className={`intro__sound-btn mono ${soundOn ? 'is-on' : ''}`}
+            onClick={toggleSound}
+            aria-pressed={soundOn}
+            aria-label={soundOn ? 'Mute sound' : 'Turn sound on'}
+          >
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor" />
+              {soundOn ? (
+                <>
+                  <path d="M16.5 8.5a5 5 0 0 1 0 7" />
+                  <path d="M19 6a8.5 8.5 0 0 1 0 12" />
+                </>
+              ) : (
+                <path d="M17 9l5 6M22 9l-5 6" />
+              )}
+            </svg>
+            <span>{soundLoading ? 'Loading…' : soundOn ? 'Sound on' : 'Sound off'}</span>
+          </button>
+          <p className="intro__sound-hint mono">Best viewed with sound on</p>
+        </div>
 
         <button className="intro__enter mono" onClick={enter}>
           Scroll to enter <span aria-hidden="true">↓</span>
