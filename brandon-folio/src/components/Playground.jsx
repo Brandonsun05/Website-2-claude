@@ -9,7 +9,13 @@ export default function Playground() {
 
   // split into two rows that scroll in opposite directions
   const [rowA, rowB] = useMemo(() => {
-    const withIndex = art.map((a, index) => ({ ...a, index }));
+    // shuffled on every visit, so the strip feels fresh each time
+    const order = art.map((_, i) => i);
+    for (let i = order.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [order[i], order[j]] = [order[j], order[i]];
+    }
+    const withIndex = order.map((index) => ({ ...art[index], index }));
     return [withIndex.filter((_, i) => i % 2 === 0), withIndex.filter((_, i) => i % 2 === 1)];
   }, []);
 

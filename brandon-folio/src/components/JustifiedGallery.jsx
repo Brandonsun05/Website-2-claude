@@ -84,7 +84,7 @@ export default function JustifiedGallery({ images, alt = '', onOpen, max = 3 }) 
     const target = phone ? width * 0.5 : Math.min(340, width * 0.24);
     // phones show at most half as many per row (phone screens: up to 4)
     const mx = phone ? Math.max(2, Math.ceil(max / 2)) : max;
-    return partition(aspects, width, gap, target, phone ? 1 : 2, mx);
+    return partition(aspects, width, gap, target, phone ? 1 : 2, mx).map((idx) => ({ idx }));
   }, [ready, width, aspects, gap, phone, max]);
 
   return (
@@ -92,7 +92,7 @@ export default function JustifiedGallery({ images, alt = '', onOpen, max = 3 }) 
       {!ready && <div className="jg__loading mono">Loading images…</div>}
       {rows.map((row, r) => (
         <div className="jg__row" key={r}>
-          {row.map((i) => (
+          {row.idx.map((i) => (
             <button
               key={images[i]}
               className="jg__item"

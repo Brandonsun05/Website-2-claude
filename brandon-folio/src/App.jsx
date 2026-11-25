@@ -1,4 +1,5 @@
 import Nav from './components/Nav.jsx';
+import Intro from './components/Intro.jsx';
 import Hero from './components/Hero.jsx';
 import About from './components/About.jsx';
 import Projects from './components/Projects.jsx';
@@ -14,6 +15,7 @@ export default function App() {
       <Cursor />
       <Nav />
       <main>
+        <Intro />
         <Hero />
         <About />
         <Projects />

@@ -44,15 +44,16 @@ export default function Nav() {
         </a>
 
         <nav className="nav__links" aria-label="Main">
-          {items.map((it) => (
+          {/* Contact is the lime button on the right, so it isn't repeated here */}
+          {items.filter((it) => it.href !== '#contact').map((it) => (
             <a key={it.href} href={it.href} className="nav__link">
               {it.label}
             </a>
           ))}
         </nav>
 
-        <a href={`mailto:${profile.email}`} className="btn btn--lime nav__cta">
-          Let&apos;s talk <span aria-hidden="true">↗</span>
+        <a href="#contact" className="btn btn--lime nav__cta">
+          Contact <span aria-hidden="true">↗</span>
         </a>
 
         <button

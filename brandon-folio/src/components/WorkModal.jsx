@@ -159,7 +159,7 @@ export default function WorkModal({ work, list = [], onNavigate, onClose }) {
         {work.models?.length > 0 && (
           <section className="pd__section">
             <h4 className="pd__h mono">3D models — drag to rotate, scroll to zoom</h4>
-            <div className="pd__models">
+            <div className={`pd__models ${work.models.length === 1 ? 'pd__models--one' : ''}`}>
               {work.models.map((m) => (
                 <Sketchfab key={m.sketchfab} id={m.sketchfab} title={m.title} href={m.href} thumb={m.thumb} />
               ))}
@@ -170,7 +170,7 @@ export default function WorkModal({ work, list = [], onNavigate, onClose }) {
         {moreVideos.length > 0 && (
           <section className="pd__section">
             <h4 className="pd__h mono">{hasSpline ? 'Videos' : 'More videos'}</h4>
-            <div className="pd__videos">
+            <div className="pd__videos" style={{ '--cols': moreVideos.length === 2 || moreVideos.length === 4 || moreVideos.length === 1 ? 2 : 3 }}>
               {moreVideos.map((v) => <YouTube key={v.yt} id={v.yt} label={v.label} />)}
             </div>
           </section>
