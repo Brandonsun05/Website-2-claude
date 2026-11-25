@@ -96,7 +96,7 @@ export default function Projects() {
               >
                 <button className="card__btn" onClick={() => setOpen(w)} aria-label={`Open ${w.title}`}>
                   <div className="card__media">
-                    <img src={w.img} alt={w.title} loading={i < 2 ? 'eager' : 'lazy'} />
+                    <img src={w.img} alt={w.title} loading={i < 2 ? 'eager' : 'lazy'} style={w.coverPos ? { objectPosition: w.coverPos } : undefined} />
                     <span className={`card__tag tag--${w.cat} mono`}>{catLabel[w.cat]}</span>
                     <span className="card__arrow" aria-hidden="true">↗</span>
                   </div>
@@ -112,7 +112,7 @@ export default function Projects() {
         </div>
       </div>
 
-      {open && <WorkModal work={open} onClose={() => setOpen(null)} />}
+      {open && <WorkModal work={open} list={byCat[open.cat]} onNavigate={setOpen} onClose={() => setOpen(null)} />}
     </section>
   );
 }

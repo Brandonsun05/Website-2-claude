@@ -74,29 +74,195 @@ export const catLabel = Object.fromEntries(categories.map((c) => [c.id, c.label]
 // Descriptions are starter copy — rewrite them in your own words.
 export const works = [
   // ── Interactive
-  { id: 'bob-rush', cat: 'interactive', title: 'Bob Rush', meta: 'RMIT × CODE · Major project 2026',
-    desc: 'A cooperative 2D platformer built for a real client brief about “awkward encounters and beautiful moments”. ZED body-tracking is wired into Unity so players move the game with their bodies. I worked on interactive systems, calibration and tracking workflows, and presented playable prototypes to the client.',
+  // Detail-page fields (all optional): tagline, year, role, tools, exhibited,
+  // brief (paragraphs), videos [{ yt, label }], links [{ label, href }], gallery (image count).
+  { id: 'bob-rush', cat: 'interactive', title: 'Bob Rush', meta: 'RMIT × CODE · ACMI Audience Lab 2026',
+    tagline: 'Awkward encounters and beautiful moments',
+    year: '2026',
+    role: 'Interactive systems & body tracking (team project)',
+    tools: ['Unity', 'ZED body tracking', 'Blender'],
+    exhibited: 'ACMI Audience Lab, July 2026 · featured in RMIT News',
+    brief: [
+      'A cooperative, body-tracked game made with RMIT × CODE. Two players guide an auto-running character through a retro, 90s Bryce-3D / vaporwave world — moving their bodies to shift platforms, build pathways, catch falls and get past obstacles.',
+      'Mechanics such as character hand-overs and shared switches only work when players talk to each other, so the game turns strangers into teammates through spontaneous communication and shared decisions.',
+      'I worked on the interactive systems and the ZED body-tracking calibration and workflow in Unity, and presented playable prototypes to the client through several rounds of playtesting.',
+    ],
+    videos: [
+      { yt: 'xoOx65DJkKI', label: 'Project brief' },
+      { yt: 'cjOGOTpVRsM', label: 'Gameplay' },
+      { yt: 'P2bKVRuZt8A', label: 'Playtest 1' },
+      { yt: 'IBHyRUvASA0', label: 'Playtest 2' },
+      { yt: 'RlW1mBylGBg', label: 'Playtest 3' },
+    ],
+    links: [
+      { label: 'ACMI Audience Lab', href: 'https://www.acmi.net.au/whats-on/acmi-rmit-audience-lab/jul-2026/' },
+      { label: 'RMIT News', href: 'https://www.rmit.edu.au/news/all-news/2026/aug/digital-media-code-project' },
+    ],
+    gallery: [{ label: 'Process & design', n: 4 }, { label: 'At ACMI', n: 4 }],
+    desc: 'A cooperative, body-tracked game exhibited at ACMI.',
     tags: ['Unity', 'ZED body tracking', 'Game design', 'Team project'] },
+
   { id: 'metro-morphosis', cat: 'interactive', title: 'Metro Morphosis', meta: 'Beyond 1 & 0 · RMIT Vietnam exhibition 2025',
-    desc: 'An experimental project on urban planning and city growth. AI-generated concept imagery became interactive 3D environments in Blender and Unity, with an AR experience that lets visitors customise speculative city ecosystems in real time. Selected for the RMIT Vietnam Digital Media Exhibition.',
+    coverPos: '50% 18%', // keep the whole flower in the card crop
+    tagline: 'Personalise the environment around you with AI-generated environments',
+    year: '2025',
+    role: 'Concept, AI workflow, 3D & AR development',
+    tools: ['Open Art', 'Meshy', 'Blender', 'Unity AR'],
+    exhibited: 'Beyond 1 & 0 — RMIT Vietnam Digital Media Exhibition, 2025',
+    brief: [
+      'Generative AI tends to over-generalise — this project uses that as a strength. Metro and subway maps from cities like Melbourne, Tokyo and Beijing are reimagined as living organisms and grown into glass-domed biospheres.',
+      'Image-to-image AI produced the organism concepts, image-to-3D turned them into models, and everything was edited and composed in Blender before being brought into Unity’s AR template.',
+      'The result is an AR app that lets visitors place and customise these speculative city ecosystems around them — a playful way into how cities grow and how urban planning works.',
+    ],
+    videos: [{ yt: 'dmx5_lZITjk', label: 'AR demo' }],
+    // Interactive 3D models (Sketchfab). `thumb` = picture shown before the viewer loads.
+    models: [
+      { sketchfab: 'fd5d6312ca0a4cbc980a8d3d86d4a188', title: 'Melbourne in a biosphere', href: 'https://sketchfab.com/3d-models/melbourne-in-a-biosphere-fd5d6312ca0a4cbc980a8d3d86d4a188', thumb: media('projects/metro-morphosis/model-melbourne.jpg') },
+      { sketchfab: '0e174023c86640c39447e6f25f000e94', title: 'Japan in a biosphere', href: 'https://sketchfab.com/3d-models/japan-in-a-biosphere-0e174023c86640c39447e6f25f000e94', thumb: media('projects/metro-morphosis/model-japan.jpg') },
+      { sketchfab: '73b49e0ed7db4a2e867c23babf88f35f', title: 'Beijing in a biosphere', href: 'https://sketchfab.com/3d-models/beijing-in-a-biosphere-73b49e0ed7db4a2e867c23babf88f35f', thumb: media('projects/metro-morphosis/model-beijing.jpg') },
+    ],
+    gallery: [{ label: 'Research', n: 2 }, { label: 'Exhibition — Beyond 1 & 0', n: 13 }],
+    desc: 'AI-grown city biospheres you can place around you in AR.',
     tags: ['AI workflow', 'Blender', 'Unity', 'AR'] },
-  { id: 'introspective-exhibition', cat: 'interactive', title: 'Introspective Exhibition', meta: 'Virtual gallery',
-    desc: 'A pastel, dream-like virtual gallery with floating sculptures and an explorable exhibition space.',
-    tags: ['Worldbuilding', 'Real-time', 'Curation'] },
-  { id: 'game-about-changes', cat: 'interactive', title: 'A Game About Changes', meta: 'Game world',
-    desc: 'A small explorable world about change — torii gates, low-poly landscapes and environmental storytelling.',
-    tags: ['Level design', 'Narrative'] },
+
+  { id: 'introspective-exhibition', cat: 'interactive', title: 'Introspective Exhibition', meta: 'Virtual exhibition · Spatial.io',
+    tagline: 'Transformative colour resonance environments',
+    year: '2024',
+    role: 'Environment design & curation',
+    tools: ['Blender', 'Unity', 'Spatial.io'],
+    brief: [
+      'A virtual exhibition of my own works and research, which looks at how audiovisual design can create emotional resonance for the people experiencing it.',
+      'Lighting leads visitors through the building and lays out the work in chronological order. Each level changes the building’s look through environment lighting and planning, so moving between floors feels like moving between moods.',
+      'The goal was one coherent experience — where looking at the work and walking through the space tell the same story.',
+    ],
+    videos: [
+      { yt: 'x1it-VlPQ04', label: 'Walkthrough' },
+      { yt: 'C9nKksn8Wvg', label: 'Exhibition tour' },
+    ],
+    gallery: [{ label: 'Modelling the building', n: 4 }, { label: 'Lighting & levels in Unity', n: 4 }],
+    desc: 'A virtual exhibition about colour, light and emotional resonance.',
+    tags: ['Worldbuilding', 'Lighting', 'Curation'] },
+
+  { id: 'musical-planet', cat: 'interactive', title: 'Musical Planet', meta: 'Interactive 3D instrument · Student Showcase',
+    tagline: 'Music within your keyboards',
+    year: '2024',
+    role: 'Concept, 3D, interaction & sound',
+    tools: ['Spline', 'Blender'],
+    exhibited: 'Design (Digital Media) Student Work Showcase',
+    brief: [
+      'A gamified virtual instrument. Every key on a set keybind plays a different note, and each note changes the colour and shape of a 3D planet in real time.',
+      'The project explores how sound and image can transform each other — the planet becomes a visual score of whatever the player performs. It was screened and played live at the Design (Digital Media) Student Work Showcase.',
+    ],
+    videos: [
+      { yt: 'Y97bGL37BNw', label: 'Final piece' },
+      { yt: 'bp0Gl5VLnvI', label: 'Prototype 1' },
+      { yt: 'SGgawGYy4Qk', label: 'Prototype 2' },
+      { yt: 'mWygChv12Xs', label: 'Prototype 3' },
+      { yt: 'U3iGxSvSoeg', label: 'Prototype 4' },
+    ],
+    // Playable scene shown right under the brief.
+    // After exporting in Spline (Export → Code → Vanilla JS), paste the ".splinecode" URL into `scene`.
+    prototype: {
+      label: 'Play it (Spline)',
+      scene: '',
+      embed: 'https://my.spline.design/untitled-e411a3c226d98c3168a86ca20b237777/',
+      cover: media('projects/musical-planet/07.jpg'),
+      cta: 'Play it here',
+      hint: 'click, then press keys to make music · best on a laptop',
+    },
+    links: [{ label: 'Open in Spline', href: 'https://my.spline.design/untitled-e411a3c226d98c3168a86ca20b237777/' }],
+    gallery: [{ label: 'Prototyping & sound', n: 11 }, { label: 'Student Showcase', n: 6 }],
+    desc: 'A 3D planet you play like a keyboard.',
+    tags: ['Spline', 'Audiovisual', 'Interaction'] },
+
+  { id: 'game-about-changes', cat: 'interactive', title: 'A Game About Changes', meta: 'Explorable game world',
+    tagline: 'Changes are good',
+    year: '2023',
+    role: 'Game & level design, illustration',
+    tools: ['Unity', 'Procreate'],
+    brief: [
+      'An exploration of game-design ideas for building an immersive, interactive world. Players wander and discover the scenery on their own, guided by progressive lures, landmarks and sound rather than instructions.',
+      'Hand-drawn concept art set the mood and the map of the playable area before the world was built in Unity.',
+    ],
+    videos: [{ yt: 'BDLyqqY5HFc', label: 'Playthrough' }],
+    links: [{ label: 'Download the game', href: 'https://drive.google.com/drive/folders/115LUpK4piLGhrBcF0yUUiR-TOJv5LVZF' }],
+    gallery: [{ label: 'Concept art', n: 4 }, { label: 'In the game', n: 2 }],
+    desc: 'A small explorable world guided by landmarks and sound.',
+    tags: ['Level design', 'Unity', 'Narrative'] },
 
   // ── UI / UX
-  { id: 'mcg-ar', cat: 'uiux', title: 'MCG AR Application', meta: 'AR app concept',
-    desc: 'An AR companion app concept for the MCG: personas, rough wireframes, a style guide and hi-fi screens for maps, voting, rewards and community.',
+  // gallery groups may set `max` = most images per row (phone screens fit more).
+  { id: 'mcg-ar', cat: 'uiux', title: 'MCG AR Application', meta: 'Group spec project · Mobile UI/UX',
+    tagline: 'Explore the rich history and cultural significance through a new lens',
+    year: '2024',
+    role: 'Wireframes, interaction design, sound design, 3D assets & project management',
+    tools: ['Figma', 'Miro', 'Blender'],
+    brief: [
+      'A spec-work brief to design a mobile app for the Melbourne Cricket Ground (MCG) that raises audience engagement at its events. The team studied the MCG’s events, audiences, culture and history before designing anything.',
+      'Three personas — a local footy family, a visiting fan and a long-time member — shaped a user journey map, which in turn drove the interaction design: an AR stadium map, upcoming games, live voting, a points-and-rewards system and a fan community.',
+      'I worked on wireframes and interaction design from the journey map, sound design and 3D assets, and managed the group — assigning tasks by each member’s strengths and keeping the project on schedule.',
+    ],
+    videos: [{ yt: 'ocn6m2KfHjw', label: 'App demo' }],
+    // Clickable prototype shown right under the brief.
+    prototype: {
+      label: 'Interactive prototype (Figma)',
+      embed: 'https://embed.figma.com/proto/aZWhW5qSQTOSj8T2W2MSmM/DMS-2-A3-wireframes?node-id=645-40&p=f&viewport=247%2C131%2C0.19&scaling=scale-down&content-scaling=fixed&starting-point-node-id=645%3A40&page-id=0%3A1&embed-host=share',
+      cover: media('works/mcg-ar.jpg'),
+      cta: 'Try the prototype',
+      hint: 'click through the app like you would on a phone',
+    },
+    gallery: [
+      { label: 'Research & personas', n: 5 },
+      { label: 'Wireframes, flow & style guide', n: 5 },
+      { label: 'App screens', n: 7, max: 7 },
+    ],
+    desc: 'An AR companion app for MCG event-goers.',
     tags: ['User research', 'Personas', 'Figma', 'AR'] },
+
+  { id: 'cashswipe', cat: 'uiux', title: 'CashSwipe', meta: 'Regenerative design · Banking app',
+    tagline: 'Save your pay',
+    year: '2025',
+    role: 'Concept, UX & UI design, prototype',
+    tools: ['Figma', 'Procreate'],
+    brief: [
+      'Tap-to-pay and buy-now-pay-later make spending effortless — which also makes impulse buying and overspending easy. CashSwipe is a regenerative design response that supports healthier money habits.',
+      'Instead of a single tap, payments are made with digital cash: you swipe notes out of your wallet, so every purchase carries a moment of friction that makes you check your budget first.',
+      'The project moved from paper sketches and scenario testing to a full brand style guide and a clickable Figma prototype covering cards, budgets, statistics and payment history.',
+    ],
+    videos: [{ yt: 'fllhBb0dISg', label: 'Prototype walkthrough' }],
+    // Clickable prototype shown right under the brief.
+    prototype: {
+      label: 'Interactive prototype (Figma)',
+      embed: 'https://embed.figma.com/proto/tgpiC25HyhKyRpEft6jlnI/Regenerative-design-A3-prototype?node-id=99-1850&viewport=113%2C1231%2C0.91&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&embed-host=share',
+      cover: media('works/cashswipe.jpg'),
+      cta: 'Try the prototype',
+      hint: 'swipe and tap through it like a real banking app',
+    },
+    gallery: [
+      { label: 'Sketches & style guide', n: 6, max: 6 },
+      { label: 'App screens', n: 8, max: 8 },
+    ],
+    desc: 'A banking app that adds healthy friction to spending.',
+    tags: ['Regenerative design', 'Figma', 'App UI'] },
+
   { id: 'pava', cat: 'uiux', title: 'PAVA', meta: 'Personal AI Voice Assistance',
-    desc: 'UX research and interface design for a friendly personal AI voice assistant.',
-    tags: ['UX research', 'Voice UI', 'Prototype'] },
-  { id: 'cashswipe', cat: 'uiux', title: 'CashSwipe', meta: 'Brand + app UI',
-    desc: 'Identity and app interface for a regenerative finance app.',
-    tags: ['Branding', 'App UI'] },
+    tagline: 'An AI that assists designers in what they already excel at',
+    year: '2025',
+    role: 'UX research, interaction design, audio-reactive visuals',
+    tools: ['Figma', 'TouchDesigner'],
+    brief: [
+      'PAVA is a voice-based AI assistant for designers. An audio-reactive AI persona talks with the designer and responds to their voice with changes in sound and visuals, inviting them to collaborate rather than just prompt.',
+      'The core idea is a feedback cycle: designers critically assess what the AI gives back and refine it. People bring creativity, empathy and human-centred thinking; the AI brings pattern recognition, error checking and fast idea generation.',
+      'Personas and a user journey map defined the experience, wireframes and hi-fi screens shaped the app, and the AI persona itself was built as node-based, audio-reactive visuals in TouchDesigner.',
+    ],
+    videos: [{ yt: '8Gk0Nplkf4w', label: 'Demo' }],
+    gallery: [
+      { label: 'Research — personas & journey', n: 5 },
+      { label: 'Wireframes & prototype', n: 3 },
+      { label: 'AI persona — audio-reactive visuals', n: 4 },
+    ],
+    desc: 'A voice AI assistant that collaborates with designers.',
+    tags: ['UX research', 'Voice UI', 'TouchDesigner'] },
 
   // ── 3D
   { id: 'digital-sunflower', cat: '3d', title: 'Digital Sunflower', meta: '3D · Compositing',
@@ -105,9 +271,6 @@ export const works = [
   { id: 'ai-biospheres', cat: '3d', title: 'AI Biospheres', meta: 'Beyond 1 & 0 · Metro Morphosis',
     desc: 'Glass-domed city ecosystems — AI-generated concepts rebuilt as 3D assets for the Metro Morphosis exhibition piece.',
     tags: ['AI workflow', 'Blender', 'Render'] },
-  { id: 'musical-planet', cat: '3d', title: 'Musical Planet', meta: '3D · Live performance',
-    desc: 'A glowing ringed planet rendered for a live music set — designed in Blender and projected behind the performer.',
-    tags: ['Blender', 'Projection', 'Lighting'] },
   { id: 'phonebooth-diorama', cat: '3d', title: 'Phonebooth Diorama', meta: '3D · Asset',
     desc: 'A stylised red phone booth diorama floating in a neon void — modelled, textured and presented as a full asset sheet.',
     tags: ['Modelling', 'Texturing', 'Asset sheet'] },
@@ -161,7 +324,23 @@ export const works = [
   { id: 'landscape', cat: 'photo', title: 'Landscape', meta: 'Photography',
     desc: 'Quiet skies, wires and lanterns — a landscape series.',
     tags: ['Landscape'] },
-].map((w) => ({ ...w, img: media(`works/${w.id}.jpg`) }));
+].map((w) => {
+  // gallery: a number (one group) or [{ label, n }] groups; files are 01.jpg, 02.jpg… in order
+  const groups = typeof w.gallery === 'number' ? [{ label: '', n: w.gallery }] : w.gallery || [];
+  let k = 0;
+  const galleryGroups = groups.map((g) => ({
+    label: g.label,
+    max: g.max,
+    start: k,
+    images: Array.from({ length: g.n }, () => media(`projects/${w.id}/${String(++k).padStart(2, '0')}.jpg`)),
+  }));
+  return {
+    ...w,
+    img: media(`works/${w.id}.jpg`),
+    galleryGroups,
+    gallery: galleryGroups.flatMap((g) => g.images),
+  };
+});
 
 // Playground — cover art & personal pieces (@brandon_made).
 // Files live in /public/media/playground/<id>.jpg. Order = order in the strip.
