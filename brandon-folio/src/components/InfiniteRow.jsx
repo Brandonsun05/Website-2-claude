@@ -5,7 +5,8 @@ import { useEffect, useRef } from 'react';
   - Auto-scrolls (direction = 1 → left, -1 → right).
   - Drag with mouse / swipe with finger to scroll by hand; it carries a little momentum.
   - Pauses while hovered (mouse) so a piece can be looked at.
-  - A tap/click that didn't drag calls onPick(index).
+  - A deliberate tap/click calls onPick(index). On touch screens a swipe up/down (page scroll),
+    a long press or any finger movement never opens a piece.
   The item list is rendered three times; the offset wraps by one set's width,
   so the loop never shows a seam at any window size.
 */
@@ -63,12 +64,22 @@ export default function InfiniteRow({ items, speed = 40, direction = 1, onPick }
     // ── pointer: drag / swipe / click
     const onDown = (e) => {
       if (e.button !== undefined && e.button !== 0) return;
-      drag = { startX: e.clientX, startOff: x, lastX: e.clientX, lastT: performance.now(), moved: false, pid: e.pointerId, vx: 0 };
+      drag = {
+        startX: e.clientX, startY: e.clientY, startOff: x, lastX: e.clientX, lastT: performance.now(),
+        t0: performance.now(), moved: false, scrolling: false, pid: e.pointerId, vx: 0, touch: e.pointerType !== 'mouse',
+      };
     };
     const onMove = (e) => {
       if (!drag || e.pointerId !== drag.pid) return;
       const dx = e.clientX - drag.startX;
-      if (!drag.moved && Math.abs(dx) > 6) {
+      const dy = e.clientY - drag.startY;
+      if (drag.scrolling) return;
+      // finger going mostly up/down = the visitor is scrolling the page: leave it alone, and never open
+      if (!drag.moved && Math.abs(dy) > 8 && Math.abs(dy) > Math.abs(dx)) {
+        drag.scrolling = true;
+        return;
+      }
+      if (!drag.moved && Math.abs(dx) > (drag.touch ? 10 : 6) && Math.abs(dx) > Math.abs(dy)) {
         drag.moved = true;
         wrap.setPointerCapture(e.pointerId);
         wrap.classList.add('irow--drag');
@@ -89,9 +100,12 @@ export default function InfiniteRow({ items, speed = 40, direction = 1, onPick }
       if (!drag || e.pointerId !== drag.pid) return;
       if (drag.moved) {
         v = Math.max(-3000, Math.min(3000, drag.vx));
-      } else {
+      } else if (e.type === 'pointerup' && !drag.scrolling) {
+        // a real tap: short, and the finger/mouse stayed put
+        const still = Math.hypot(e.clientX - drag.startX, e.clientY - drag.startY) < (drag.touch ? 10 : 6);
+        const quick = performance.now() - drag.t0 < (drag.touch ? 350 : 800);
         const item = e.target.closest('[data-i]');
-        if (item && onPick) onPick(Number(item.dataset.i));
+        if (still && quick && item && onPick) onPick(Number(item.dataset.i));
       }
       wrap.classList.remove('irow--drag');
       drag = null;

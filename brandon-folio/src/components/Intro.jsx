@@ -423,10 +423,45 @@ export default function Intro() {
 
       const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
       const onMove = (e) => {
+        if (e.pointerType !== 'mouse') return; // touch screens use tilt instead
         pointer.tx = (e.clientX / window.innerWidth) * 2 - 1;
         pointer.ty = (e.clientY / window.innerHeight) * 2 - 1;
       };
       window.addEventListener('pointermove', onMove, { passive: true });
+
+      // Phones / tablets: tilting the device looks around, like the mouse on desktop.
+      // The resting angle is learned and slowly re-centred, so it works however the phone is held.
+      let tiltBase = null;
+      const onTilt = (ev) => {
+        if (ev.beta == null || ev.gamma == null) return;
+        const angle = screen.orientation?.angle ?? window.orientation ?? 0;
+        let x = ev.gamma;
+        let y = ev.beta;
+        if (angle === 90) { x = ev.beta; y = -ev.gamma; }
+        else if (angle === -90 || angle === 270) { x = -ev.beta; y = ev.gamma; }
+        else if (angle === 180) { x = -ev.gamma; y = -ev.beta; }
+        if (!tiltBase) tiltBase = { x, y };
+        tiltBase.x += (x - tiltBase.x) * 0.01;
+        tiltBase.y += (y - tiltBase.y) * 0.01;
+        pointer.tx = clamp((x - tiltBase.x) / 18, -1, 1);
+        pointer.ty = clamp((y - tiltBase.y) / 18, -1, 1);
+      };
+      const touchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+      let askTilt = null;
+      if (touchDevice && 'DeviceOrientationEvent' in window && !reduced) {
+        if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+          // iPhone/iPad only allow motion access after a tap: ask on the first tap anywhere
+          askTilt = () => {
+            window.removeEventListener('touchend', askTilt);
+            DeviceOrientationEvent.requestPermission()
+              .then((r) => { if (r === 'granted') window.addEventListener('deviceorientation', onTilt); })
+              .catch(() => {});
+          };
+          window.addEventListener('touchend', askTilt, { passive: true });
+        } else {
+          window.addEventListener('deviceorientation', onTilt);
+        }
+      }
 
       const qPar = new THREE.Quaternion();
       const ePar = new THREE.Euler();
@@ -468,6 +503,8 @@ export default function Intro() {
         io.disconnect();
         ro.disconnect();
         window.removeEventListener('pointermove', onMove);
+        window.removeEventListener('deviceorientation', onTilt);
+        if (askTilt) window.removeEventListener('touchend', askTilt);
         root.traverse((o) => o.geometry?.dispose());
         Object.values(M).forEach((m) => m.dispose());
         ocean.dispose();
