@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { media, profile, expertise, tools } from '../data.js';
 import Marquee from './Marquee.jsx';
+import { globalSound } from '../sound.js';
 
 // Skills (display type) interleaved with tools (mono type) for the ticker.
 const tickerItems = (() => {
@@ -50,6 +51,54 @@ export default function Hero() {
     v.play().catch(() => setPlaying(false));
   }, []);
 
+  // The sound button is a setting: "Sound on" stays on.
+  // The reel only goes quiet while it's scrolled out of view, and its sound comes back when it returns.
+  // Coming down from the 3D cover restarts the reel from the beginning;
+  // otherwise (e.g. scrolling back up from About) it just keeps looping.
+  // The sound toggle on the 3D cover is the site-wide switch: it sets this button too.
+  const sectionRef = useRef(null);
+  const mutedRef = useRef(true); // the button's setting
+  const visibleRef = useRef(false);
+  useEffect(() => { mutedRef.current = muted; }, [muted]);
+
+  useEffect(() => {
+    const v = videoRef.current;
+    return globalSound.subscribe((on) => {
+      mutedRef.current = !on;
+      setMuted(!on);
+      if (v && visibleRef.current) v.muted = !on;
+    });
+  }, []);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    const v = videoRef.current;
+    if (!el || !v) return;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const io = new IntersectionObserver(([entry]) => {
+      visibleRef.current = entry.isIntersecting;
+      v.muted = entry.isIntersecting ? mutedRef.current : true;
+      // top edge below the top of the screen = it's entering from above (from the cover)
+      const fromCover = entry.isIntersecting && entry.boundingClientRect.top > 0;
+      if (fromCover) {
+        v.currentTime = 0;
+        if (ambientRef.current) ambientRef.current.currentTime = 0;
+        if (!reduced) {
+          v.play()
+            .then(() => setPlaying(true))
+            .catch(() => {
+              // browser refused sound without a click → play silently
+              v.muted = true;
+              setMuted(true);
+              v.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+            });
+        }
+      }
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   const togglePlay = () => {
     const v = videoRef.current;
     if (!v) return;
@@ -74,7 +123,7 @@ export default function Hero() {
   };
 
   return (
-    <section className="hero" id="top">
+    <section className="hero" id="top" ref={sectionRef}>
       <div className="hero__stage">
       <div className="hero__media">
         <video

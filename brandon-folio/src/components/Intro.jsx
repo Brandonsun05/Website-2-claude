@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { media } from '../data.js';
+import { globalSound } from '../sound.js';
 
 // Opening cover: Brandon's PLANET scene (Blender → public/media/intro/planet.fbx), rendered live with three.js.
 // The look is rebuilt from the .blend file, because FBX keeps only flat colours:
@@ -70,6 +71,7 @@ export default function Intro() {
       a.gain.connect(a.ctx.destination);
       a.on = true;
       setSoundOn(true);
+      globalSound.set(true);
       setSoundLoading(true);
       let buf = null;
       for (const url of SOUND_URLS) {
@@ -81,7 +83,7 @@ export default function Intro() {
         } catch { /* try the next format */ }
       }
       setSoundLoading(false);
-      if (!buf) { a.on = false; setSoundOn(false); return; }
+      if (!buf) { a.on = false; setSoundOn(false); globalSound.set(false); return; }
       const src = a.ctx.createBufferSource(); // buffer looping = gapless
       src.buffer = buf;
       src.loop = true;
@@ -93,6 +95,7 @@ export default function Intro() {
     }
     a.on = !a.on;
     setSoundOn(a.on);
+    globalSound.set(a.on);
     if (a.on && a.ctx.state === 'suspended') await a.ctx.resume();
     applyGain();
   };
