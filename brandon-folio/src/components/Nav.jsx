@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { profile, media } from '../data.js';
 
 const items = [
+  { href: '#selected', label: 'Selected Works' },
   { href: '#about', label: 'About' },
   { href: '#projects', label: 'Projects' },
   { href: '#playground', label: 'Playground' },

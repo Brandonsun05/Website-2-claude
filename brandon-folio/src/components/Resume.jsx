@@ -7,7 +7,7 @@ export default function Resume() {
       <div className="container">
         <div className="resume__head">
           <div className="section__head">
-            <Reveal as="p" className="section__kicker mono">(04) — resume</Reveal>
+            <Reveal as="p" className="section__kicker mono">(05) — resume</Reveal>
             <Reveal as="h2" className="section__title" delay={80}>
               The <em>short</em> version
             </Reveal>

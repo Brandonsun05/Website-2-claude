@@ -28,7 +28,7 @@ export default function Contact() {
 
       <div className="container contact__inner">
         <Reveal as="p" className="section__kicker mono">
-          (05) — contact
+          (06) — contact
         </Reveal>
 
         <Reveal as="h2" className="contact__title" delay={80}>

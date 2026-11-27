@@ -72,6 +72,9 @@ export const catLabel = Object.fromEntries(categories.map((c) => [c.id, c.label]
 
 // Within a category, works show in the order listed here.
 // Descriptions are starter copy — rewrite them in your own words.
+// Shown first, in the Selected Works section above About (ids from `works` below).
+export const selectedWorks = ['bob-rush', 'cavi', 'metro-morphosis', 'musical-planet'];
+
 export const works = [
   // ── Interactive
   // Detail-page fields (all optional): tagline, year, role, tools, exhibited,
@@ -188,6 +191,26 @@ export const works = [
 
   // ── UI / UX
   // gallery groups may set `max` = most images per row (phone screens fit more).
+  { id: 'cavi', cat: 'uiux', title: 'CAVI', meta: 'In-car UX · Volkswagen Car Brain Challenge',
+    tagline: 'The first car that learns the driver',
+    year: '2026',
+    role: 'Team project — UX research, personas & interface design',
+    exhibited: 'Volkswagen Car Brain Challenge, RMIT University',
+    brief: [
+      'A concept for Volkswagen’s Car Brain Challenge. Today the car has a great memory for itself, but not for the people inside it: new owners are overwhelmed by settings before they’ve driven a kilometre, passengers are invisible to the system, and preferences are recorded once and never updated.',
+      'CAVI is a context-aware in-car assistant that learns through use instead of setup. It recognises every occupant and their role, builds preferences passively across trips with consent-based memory that stays visible and editable, and generates the right interface for the right person — suppressing prompts when the driver is stressed or busy.',
+      'We mapped who rides in the car with eight personas, planned an onboarding journey from Day 0 at the showroom to a fully personalised experience after Day 30, and designed the centre display and HUD, a context ontology linking sensor inputs to UI outputs, the hardware spec and a cloud architecture.',
+    ],
+    videos: [{ yt: 'P_ryT3-WjZw', label: 'Concept video' }],
+    gallery: [
+      { label: 'Workshops & team', n: 4, max: 4 },
+      { label: 'Problem & concept', n: 6 },
+      { label: 'Personas', n: 8, max: 4 },
+      { label: 'System & interface', n: 6 },
+    ],
+    desc: 'A Volkswagen car assistant that learns every occupant through use, not setup.',
+    tags: ['UX research', 'In-car UI', 'Personas'] },
+
   { id: 'mcg-ar', cat: 'uiux', title: 'MCG AR Application', meta: 'Group spec project · Mobile UI/UX',
     tagline: 'Explore the rich history and cultural significance through a new lens',
     year: '2024',

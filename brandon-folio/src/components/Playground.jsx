@@ -43,7 +43,7 @@ export default function Playground() {
       <div className="container">
         <div className="playground__head">
           <div className="section__head">
-            <Reveal as="p" className="section__kicker mono">(03) — playground</Reveal>
+            <Reveal as="p" className="section__kicker mono">(04) — playground</Reveal>
             <Reveal as="h2" className="section__title" delay={80}>
               Art <em>making</em>
             </Reveal>

@@ -43,7 +43,7 @@ export default function Projects() {
     <section className="section projects" id="projects">
       <div className="container">
         <div className="section__head">
-          <Reveal as="p" className="section__kicker mono">(02) — projects</Reveal>
+          <Reveal as="p" className="section__kicker mono">(03) — projects</Reveal>
           <Reveal as="h2" className="section__title" delay={80}>
             Things I&apos;ve <em>made</em>
           </Reveal>

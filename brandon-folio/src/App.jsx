@@ -1,6 +1,7 @@
 import Nav from './components/Nav.jsx';
 import Intro from './components/Intro.jsx';
 import Hero from './components/Hero.jsx';
+import SelectedWorks from './components/SelectedWorks.jsx';
 import About from './components/About.jsx';
 import Projects from './components/Projects.jsx';
 import Playground from './components/Playground.jsx';
@@ -17,6 +18,7 @@ export default function App() {
       <main>
         <Intro />
         <Hero />
+        <SelectedWorks />
         <About />
         <Projects />
         <Playground />

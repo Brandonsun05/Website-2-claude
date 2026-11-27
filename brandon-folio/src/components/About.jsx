@@ -6,7 +6,7 @@ export default function About() {
   return (
     <section className="section about-sec" id="about">
       <div className="container">
-        <Reveal as="p" className="section__kicker mono">(01) — about me</Reveal>
+        <Reveal as="p" className="section__kicker mono">(02) — about me</Reveal>
 
         <div className="about-grid">
           <Reveal className="about-photo">
