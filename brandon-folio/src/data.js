@@ -398,6 +398,23 @@ export const works = [
     desc: 'How algorithms feed disrespect to young people — a campaign short.',
     tags: ['Campaign', 'Storyboard'] },
 
+  { id: 'music-visualisers', cat: 'video', title: 'Music Visualisers', meta: 'Cover art & visualisers · Freelance',
+    tagline: 'Working with indie artists to produce cover art and visualisers for music albums or singles',
+    role: 'Freelance cover art & visualiser designer',
+    brief: [
+      'Two separate freelance releases for independent artists. For each single I designed both the cover art and the visualiser video.',
+      '折磨 Part 2: a dripping neon heart and glitchy purple textures, carried from the cover into the moving visualiser.',
+      '11-3: a hand-drawn stationery world, from the single cover to the visualiser.',
+    ],
+    videoLayout: 'side-by-side', // two separate pieces: both videos at the top
+    videos: [
+      { yt: '6oNCthWsSvM', label: '折磨 Part 2' },
+      { yt: '0Ky1KfL_ll8', label: '11-3' },
+    ],
+    gallery: [{ label: 'Cover art', n: 2 }],
+    desc: 'Cover art and visualisers for indie music releases.',
+    tags: ['Visualiser', 'Cover art', 'Freelance'] },
+
   // ── 2D
   { id: 'sko', cat: '2d', title: 'SKO Publication', meta: 'Publication design',
     tagline: 'Publication inspired by videogame UI/UX',

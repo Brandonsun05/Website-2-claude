@@ -92,7 +92,9 @@ export default function WorkModal({ work, list = [], onNavigate, onClose }) {
   const playable = work.spline;
   const hasSpline = Boolean(playable?.scene || playable?.embed);
   const [main, ...rest] = work.videos || [];
-  const moreVideos = hasSpline ? work.videos || [] : rest;
+  // videoLayout: 'side-by-side' → separate pieces of equal weight: all videos sit together at the top
+  const sideBySide = !hasSpline && work.videoLayout === 'side-by-side' && (work.videos?.length || 0) > 1;
+  const moreVideos = sideBySide ? [] : hasSpline ? work.videos || [] : rest;
   const brief = work.brief || (work.desc ? [work.desc] : []);
   const gallery = work.gallery || [];
 
@@ -111,6 +113,15 @@ export default function WorkModal({ work, list = [], onNavigate, onClose }) {
           <p className="pd__meta mono">{work.meta}</p>
         </header>
 
+        {sideBySide ? (
+          <div className="pd__hero-grid">
+            {work.videos.map((v) => (
+              <div className="pd__hero" key={v.yt}>
+                <YouTube id={v.yt} label={v.label} />
+              </div>
+            ))}
+          </div>
+        ) : (
         <div className="pd__hero">
           {hasSpline ? (
             <SplinePlayer key={work.id} {...playable} cover={playable.cover || work.img} title={work.title} />
@@ -120,6 +131,7 @@ export default function WorkModal({ work, list = [], onNavigate, onClose }) {
             <img src={work.img} alt={work.title} />
           )}
         </div>
+        )}
 
         <div className="pd__body">
           <div className="pd__brief">

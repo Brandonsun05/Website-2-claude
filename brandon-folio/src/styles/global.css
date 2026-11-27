@@ -606,6 +606,8 @@ ul { padding: 0; list-style: none; }
 .pd__meta { margin-top: 8px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.6; }
 
 .pd__hero { border-radius: calc(var(--radius) - 4px); overflow: hidden; border: 2px solid var(--ink); box-shadow: 6px 6px 0 var(--ink); background: var(--ink); }
+.pd__hero-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(12px, 1.6vw, 24px); }
+@media (max-width: 720px) { .pd__hero-grid { grid-template-columns: 1fr; } }
 .pd__hero > img { width: 100%; max-height: 72vh; object-fit: contain; }
 
 .yt { position: relative; aspect-ratio: 16 / 9; background: var(--ink); }
